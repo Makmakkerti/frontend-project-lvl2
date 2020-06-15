@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "gendiff package",
   "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "test": "test"
   },
@@ -20,7 +21,7 @@
     "url": "https://github.com/Makmakkerti/frontend-project-lvl2/issues"
   },
   "bin": {
-    "brain-even": "bin/gendiff.js"
+    "gendiff": "./gendiff.js"
   },
   "homepage": "https://github.com/Makmakkerti/frontend-project-lvl2#readme",
   "dependencies": {

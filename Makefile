@@ -1,6 +1,9 @@
 lint:
 	npx eslint .
 
+link:
+	npm link
+
 install:
 	npm install
 
