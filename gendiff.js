@@ -9,9 +9,7 @@ const checkDiff = (file1, file2) => {
   const obj2 = JSON.parse(fs.readFileSync(file2, 'utf-8'));
   const result = ['{'];
 
-  const entries1 = Object.entries(obj1);
-  const entries2 = Object.entries(obj2);
-  for (const [key, value] of entries1) {
+  for (const [key, value] of Object.entries(obj1)) {
     if (obj2.hasOwnProperty(key) && obj2[key] === value) {
       result.push(`    ${key}:${value}`);
     } else if (obj2.hasOwnProperty(key)) {
@@ -22,11 +20,12 @@ const checkDiff = (file1, file2) => {
     }
   }
 
-  for (const [key, value] of entries2) {
+  for (const [key, value] of Object.entries(obj2)) {
     if (!obj1.hasOwnProperty(key)) {
       result.push(`  + ${key}: ${value}`);
     }
   }
+
   result.push('}');
   return result.join('\n');
 };
