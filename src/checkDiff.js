@@ -7,9 +7,11 @@ import path from 'path';
 const __dirname = path.resolve();
 export const readFile = (filename) => fs.readFileSync(path.join(__dirname, filename), 'utf-8');
 
+const parseJson = (text) => JSON.parse(readFile(text));
+
 export const checkDiff = (file1, file2) => {
-  const obj1 = JSON.parse(readFile(file1));
-  const obj2 = JSON.parse(readFile(file2));
+  const obj1 = parseJson(file1);
+  const obj2 = parseJson(file2);
   const result = ['{'];
 
   for (const [key, value] of Object.entries(obj1)) {
