@@ -11,10 +11,12 @@ export const checkDiff = (file1, file2) => {
   const result = ['{'];
 
   for (const [key, value] of Object.entries(obj1)) {
-    if (key in obj2 && obj2[key] === value) {
-      result.push(`    ${key}: ${value}`);
-    } else if (key in obj2) {
-      result.push(`  - ${key}: ${value}\n  + ${key}: ${obj2[key]}`);
+    if (key in obj2) {
+      if (obj2[key] === value) {
+        result.push(`    ${key}: ${value}`);
+      } else {
+        result.push(`  - ${key}: ${value}\n  + ${key}: ${obj2[key]}`);
+      }
     } else {
       result.push(`  - ${key}: ${value}`);
     }
