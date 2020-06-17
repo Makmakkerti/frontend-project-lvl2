@@ -1,0 +1,36 @@
+name: Diff-generator
+
+on:
+  - push
+
+jobs:
+  build:
+    # The type of machine to run the job on
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Node versions list
+      matrix:
+        node-version: [13.x]
+
+    steps:
+
+      - uses: actions/checkout@v2
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        # Configures the node version used on GitHub-hosted runners
+        # https://github.com/actions/setup-node
+        uses: actions/setup-node@v1
+        # The Node.js version to configure
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: npm install
+        # Install and build project
+        run: |
+          make install
+
+      - name: Run linter
+
+        run: |
+          make lint
