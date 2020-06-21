@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
-import { checkDiff, readFile } from '../src/checkDiff';
+import { checkDiff } from '../src/checkDiff';
+import { readFile } from '../src/parsers';
 
-const result = readFile('./__fixtures__/result.txt');
+const result = readFile('./fixtures/result.txt');
 test('Test for JSON', () => {
-  expect(checkDiff('__fixtures__/before.json', '__fixtures__/after.json')).toBe(result);
+  expect(checkDiff('fixtures/before.json', 'fixtures/after.json')).toBe(result);
 });

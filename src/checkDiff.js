@@ -1,14 +1,12 @@
 /* eslint-disable no-restricted-syntax */
-import fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
+import { parseFile } from './parsers.js';
 
-export const readFile = (filename) => fs.readFileSync(path.join(path.resolve(), filename), 'utf-8');
-const parseJson = (text) => JSON.parse(readFile(text));
 
+// eslint-disable-next-line import/prefer-default-export
 export const checkDiff = (file1, file2) => {
-  const obj1 = parseJson(file1);
-  const obj2 = parseJson(file2);
+  const obj1 = parseFile(file1);
+  const obj2 = parseFile(file2);
   const result = ['{'];
 
   for (const [key, value] of Object.entries(obj1)) {
