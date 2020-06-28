@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import { parseFile } from './parsers.js';
 
-
 // eslint-disable-next-line import/prefer-default-export
 export const checkDiff = (file1, file2) => {
   const obj1 = parseFile(file1);

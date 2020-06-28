@@ -3,6 +3,10 @@ import { checkDiff } from '../src/checkDiff';
 import { readFile } from '../src/parsers';
 
 const result = readFile('./fixtures/result.txt');
-test('Test for JSON', () => {
-  expect(checkDiff('fixtures/before.json', 'fixtures/after.json')).toBe(result);
+test.each([
+  ['fixtures/before.json', 'fixtures/after.json'],
+  ['fixtures/before.yml', 'fixtures/after.yml'],
+  ['fixtures/before.ini', 'fixtures/after.ini'],
+])('Test checkDiff', (a, b) => {
+  expect(checkDiff(a, b)).toBe(result);
 });
