@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import program from 'commander';
-import { checkDiff } from '../src/checkDiff.js';
+import checkDiff from '../index.js';
 
 program
   .version('0.0.1')

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { parseFile } from './parsers.js';
 
 // eslint-disable-next-line import/prefer-default-export
-export const checkDiff = (file1, file2) => {
+const checkDiff = (file1, file2) => {
   const obj1 = parseFile(file1);
   const obj2 = parseFile(file2);
   const result = ['{'];
@@ -28,3 +28,5 @@ export const checkDiff = (file1, file2) => {
   result.push('}');
   return result.join('\n');
 };
+
+export default checkDiff;
