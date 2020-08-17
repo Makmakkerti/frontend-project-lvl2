@@ -11,7 +11,7 @@ jobs:
     strategy:
       # Node versions list
       matrix:
-        node-version: [13.x]
+        node-version: [14.x]
 
     steps:
 
@@ -20,7 +20,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         # Configures the node version used on GitHub-hosted runners
         # https://github.com/actions/setup-node
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v1
         # The Node.js version to configure
         with:
           node-version: ${{ matrix.node-version }}
@@ -32,7 +32,6 @@ jobs:
       # Add environment variables
         env:
           CI: true
-
       - name: Run linter
         # Run Linter
         run: |

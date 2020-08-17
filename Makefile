@@ -18,3 +18,8 @@ publish:
 
 run:
 	node ./gendiff.js
+
+test-coverage:
+	npm test -- --coverage --coverageProvider=v8
+
+.PHONY: test
