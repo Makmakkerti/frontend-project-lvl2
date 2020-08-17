@@ -3,21 +3,17 @@ import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-export const readFile = (filename) => fs.readFileSync(path.join(path.resolve(), filename), 'utf-8');
-const parseJson = (filepath) => JSON.parse(readFile(filepath));
-const parseYml = (filepath) => yaml.safeLoad(readFile(filepath));
-const parseIni = (filepath) => ini.parse(readFile(filepath));
+const parserSelector = {
+  json: (file) => JSON.parse(file),
+  yml: (file) => yaml.safeLoad(file),
+  yaml: (file) => yaml.safeLoad(file),
+  ini: (file) => ini.parse(file),
+};
 
-export const parseFile = (filename) => {
-  const extention = path.extname(filename);
-  switch (extention) {
-    case '.json':
-      return parseJson(filename);
-    case '.yml':
-      return parseYml(filename);
-    case '.ini':
-      return parseIni(filename);
-    default:
-      throw new Error('Unknown file type');
-  }
+export const readFile = (filepath) => fs.readFileSync(path.join(path.resolve(), filepath), 'utf-8');
+
+export const parseFile = (filepath) => {
+  const file = readFile(filepath);
+  const extention = path.extname(filepath).slice(1);
+  return parserSelector[extention](file);
 };
