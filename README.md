@@ -8,3 +8,11 @@ make install
 make publish
 make link
 ```
+
+## Examples
+### JSON (flat files)
+[![asciicast](https://asciinema.org/a/353793.svg)](https://asciinema.org/a/353793)
+### INI (flat files)
+[![asciicast](https://asciinema.org/a/353791.svg)](https://asciinema.org/a/353791)
+### YAML/YML (flat files)
+[![asciicast](https://asciinema.org/a/RHGvjVFNcJxOd7IHbaYaWup0T.svg)](https://asciinema.org/a/RHGvjVFNcJxOd7IHbaYaWup0T)
