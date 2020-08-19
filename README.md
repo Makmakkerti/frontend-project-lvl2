@@ -1,5 +1,5 @@
 # frontend-project-lvl2 | Diff Checker
-[![Maintainability](https://api.codeclimate.com/v1/badges/640f85cc20ff9d472a4e/maintainability)](https://codeclimate.com/github/Makmakkerti/frontend-project-lvl2/maintainability) 
+![Github Actions](https://github.com/Makmakkerti/frontend-project-lvl2/workflows/Diff-generator/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/640f85cc20ff9d472a4e/maintainability)](https://codeclimate.com/github/Makmakkerti/frontend-project-lvl2/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/640f85cc20ff9d472a4e/test_coverage)](https://codeclimate.com/github/Makmakkerti/frontend-project-lvl2/test_coverage) 
 ### Author: Mokienko Konstantin
 
 ## Installation
