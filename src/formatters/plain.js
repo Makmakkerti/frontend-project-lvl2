@@ -17,16 +17,16 @@ const buildString = (node) => {
 const typeList = ['added', 'modified', 'deleted'];
 
 const flatFormat = (tree) => {
-  const iter = (node, type = '', parent = '') => {
-    parent += `.${node.key}`;
-    const beginning = `Property '${parent.slice(1)}' was`;
+  const iter = (node, type = '', parent = []) => {
+    const propertyPath = parent.length ? `${parent.join('.')}.${node.key}` : node.key;
+    const beginning = `Property '${propertyPath}' was`;
     const keys = Object.keys(node);
     if (!keys.includes('children') || typeList.includes(type)) {
       const ret = buildString(node);
       return ret !== ' ' ? `${beginning} ${buildString(node)}` : ' ';
     }
     const { children } = node;
-    return children.flatMap((child) => iter(child, child.type, parent));
+    return children.flatMap((child) => iter(child, child.type, [...parent, node.key]));
   };
   return tree.flatMap((el) => iter(el)).filter((s) => s !== ' ').sort().join('\n');
 };
