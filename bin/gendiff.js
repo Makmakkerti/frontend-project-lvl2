@@ -6,9 +6,9 @@ program
   .version('0.0.1')
   .description('Compares two configuration files and shows a difference.')
   .arguments('<filepath1> <filepath2>')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format', 'stylish')
   .action((file1, file2) => {
-    console.log(checkDiff(file1, file2));
+    console.log(checkDiff(program.format, file1, file2));
   });
 
 program.parse(process.argv);

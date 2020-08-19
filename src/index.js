@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { parseFile } from './parsers.js';
-import stylish from './stylish.js';
+import stylishFormat from './formatters/stylish.js';
+import flatFormat from './formatters/plain.js';
+import { parseFile } from './formatters/index.js';
 
 const getTypeSettings = (key, before, after, cb) => {
   if (!_.has(before, key) && _.has(after, key)) return { type: 'added', value: after[key] };
@@ -24,10 +25,15 @@ const buildDiff = (before, after) => {
   });
 };
 
-const checkDiff = (file1, file2) => {
+const formatterSelector = {
+  stylish: (tree) => stylishFormat(tree),
+  plain: (tree) => flatFormat(tree),
+};
+
+const checkDiff = (format, file1, file2) => {
   const obj1 = parseFile(file1);
   const obj2 = parseFile(file2);
-  return stylish(buildDiff(obj1, obj2));
+  return formatterSelector[format](buildDiff(obj1, obj2));
 };
 
 export default checkDiff;

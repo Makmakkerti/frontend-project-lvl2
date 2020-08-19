@@ -1,7 +1,7 @@
-import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
+import { readFile } from '../utils.js';
 
 const parserSelector = {
   json: (file) => JSON.parse(file),
@@ -10,8 +10,7 @@ const parserSelector = {
   ini: (file) => ini.parse(file),
 };
 
-export const readFile = (filepath) => fs.readFileSync(path.join(path.resolve(), filepath), 'utf-8');
-
+// eslint-disable-next-line import/prefer-default-export
 export const parseFile = (filepath) => {
   const file = readFile(filepath);
   const extention = path.extname(filepath).slice(1);
