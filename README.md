@@ -17,5 +17,9 @@ make link
 ### YAML/YML
 [![asciicast](https://asciinema.org/a/RHGvjVFNcJxOd7IHbaYaWup0T.svg)](https://asciinema.org/a/RHGvjVFNcJxOd7IHbaYaWup0T)
 
+### Usage of default formatter option (stylish)
+[![asciicast](https://asciinema.org/a/354398.svg)](https://asciinema.org/a/354398)
 ### Usage of formatter option (plain)
 [![asciicast](https://asciinema.org/a/354353.svg)](https://asciinema.org/a/354353)
+### Usage of formatter option (json)
+[![asciicast](https://asciinema.org/a/354399.svg)](https://asciinema.org/a/354399)

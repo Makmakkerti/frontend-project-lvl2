@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import stylishFormat from './formatters/stylish.js';
 import flatFormat from './formatters/plain.js';
+import formatJson from './formatters/json.js';
 import { parseFile } from './formatters/index.js';
 
 const getTypeSettings = (key, before, after, cb) => {
@@ -28,6 +29,7 @@ const buildDiff = (before, after) => {
 const formatterSelector = {
   stylish: (tree) => stylishFormat(tree),
   plain: (tree) => flatFormat(tree),
+  json: (tree) => formatJson(tree),
 };
 
 const checkDiff = (format, file1, file2) => {

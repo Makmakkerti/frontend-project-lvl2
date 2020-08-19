@@ -19,4 +19,5 @@ test.each`
   ${`${npath}before.yml`}      | ${`${npath}after.yml`}    |  ${`${npath}result.txt`} | ${'stylish'}
   ${`${npath}before.ini`}      | ${`${npath}after.ini`}    |  ${`${npath}result.txt`} | ${'stylish'}
   ${`${npath}before.json`}     | ${`${npath}after.json`}   |  ${`${npath}plain.txt`}  | ${'plain'}
+  ${`${npath}before.json`}     | ${`${npath}after.json`}   |  ${`${npath}json.txt`}   | ${'json'}
   `('Multiple check', testing);
