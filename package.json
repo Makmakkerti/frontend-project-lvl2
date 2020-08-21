@@ -1,9 +1,8 @@
 {
-  "name": "gendiff",
+  "name": "@mokienko/gendiff",
   "version": "1.0.0",
-  "description": "gendiff package",
+  "description": "Console programm that generates difference report after comparing two files. Supported formats: json, ini, yml",
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "test": "npx -n --experimental-vm-modules jest"
   },
