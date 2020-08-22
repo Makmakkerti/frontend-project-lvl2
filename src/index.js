@@ -1,8 +1,7 @@
 import _ from 'lodash';
-import stylishFormat from './formatters/stylish.js';
-import flatFormat from './formatters/plain.js';
-import formatJson from './formatters/json.js';
-import { parseFile } from './formatters/index.js';
+import path from 'path';
+import { readFile } from './utils.js';
+import { parsers, formatters } from './formatters/index.js';
 
 const getTypeSettings = (key, before, after, cb) => {
   if (!_.has(before, key) && _.has(after, key)) return { type: 'added', value: after[key] };
@@ -26,16 +25,16 @@ const buildDiff = (before, after) => {
   });
 };
 
-const formatterSelector = {
-  stylish: (tree) => stylishFormat(tree),
-  plain: (tree) => flatFormat(tree),
-  json: (tree) => formatJson(tree),
+export const parseFile = (filepath, parserSelector) => {
+  const file = readFile(filepath);
+  const extention = path.extname(filepath).slice(1);
+  return parserSelector[extention](file);
 };
 
-const checkDiff = (format, file1, file2) => {
-  const obj1 = parseFile(file1);
-  const obj2 = parseFile(file2);
-  return formatterSelector[format](buildDiff(obj1, obj2));
+const checkDiff = (formatter, file1, file2, formatterSelector = formatters) => {
+  const obj1 = parseFile(file1, parsers);
+  const obj2 = parseFile(file2, parsers);
+  return formatterSelector[formatter](buildDiff(obj1, obj2));
 };
 
 export default checkDiff;
