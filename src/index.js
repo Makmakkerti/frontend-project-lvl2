@@ -1,7 +1,9 @@
 import _ from 'lodash';
+import ini from 'ini';
 import path from 'path';
+import yaml from 'js-yaml';
 import { readFile } from './utils.js';
-import { parsers, formatters } from './formatters/index.js';
+import { formatters } from './formatters/index.js';
 
 const getTypeSettings = (key, before, after, cb) => {
   if (!_.has(before, key) && _.has(after, key)) return { type: 'added', value: after[key] };
@@ -29,6 +31,13 @@ export const parseFile = (filepath, parserSelector) => {
   const file = readFile(filepath);
   const extention = path.extname(filepath).slice(1);
   return parserSelector[extention](file);
+};
+
+export const parsers = {
+  json: (file) => JSON.parse(file),
+  yml: (file) => yaml.safeLoad(file),
+  yaml: (file) => yaml.safeLoad(file),
+  ini: (file) => ini.parse(file),
 };
 
 const checkDiff = (formatter, file1, file2, formatterSelector = formatters) => {
