@@ -20,6 +20,7 @@ const testList = [
   ['.json', 'json'],
   ['.ini', 'stylish'],
   ['.ini', 'plain'],
+  ['.ini', 'json'],
 ];
 
 const buildFixturePath = (filename, ext = '.txt', pathToFolder) => `${pathToFolder}${filename}${ext}`;
