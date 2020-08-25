@@ -37,10 +37,7 @@ export const parsers = {
   json: (file) => JSON.parse(file),
   yml: (file) => yaml.safeLoad(file),
   yaml: (file) => yaml.safeLoad(file),
-  ini: (file) => {
-    const data = ini.parse(file);
-    return numberifyValues(data);
-  },
+  ini: (file) => numberifyValues(ini.parse(file)),
 };
 
 const checkDiff = (formatter, file1, file2, formatterSelector = formatters) => {
