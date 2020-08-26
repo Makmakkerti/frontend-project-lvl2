@@ -25,13 +25,13 @@ const buildDiff = (before, after) => {
   });
 };
 
-const checkDiff = (formatter, filepath1, filepath2, formatterSelector = formatters) => {
+const checkDiff = (formatter, filepath1, filepath2) => {
   const file1 = readFile(filepath1);
   const file2 = readFile(filepath2);
   const obj1 = parseFile(file1, getFileExtention(filepath1), parsers);
   const obj2 = parseFile(file2, getFileExtention(filepath2), parsers);
 
-  return formatterSelector[formatter](buildDiff(obj1, obj2));
+  return formatters[formatter](buildDiff(obj1, obj2));
 };
 
 export default checkDiff;
