@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import path from 'path';
 import { readFile } from './utils.js';
 import { formatters } from './formatters/index.js';
