@@ -1,9 +1,7 @@
 import _ from 'lodash';
-import ini from 'ini';
-import path from 'path';
-import yaml from 'js-yaml';
-import { readFile, numberifyValues } from './utils.js';
+import { readFile, getFileExtention } from './utils.js';
 import { formatters } from './formatters/index.js';
+import { parseFile, parsers } from './parser.js';
 
 const getTypeSettings = (key, before, after, cb) => {
   if (!_.has(before, key) && _.has(after, key)) return { type: 'added', value: after[key] };
@@ -27,22 +25,12 @@ const buildDiff = (before, after) => {
   });
 };
 
-export const parseFile = (filepath, parserSelector) => {
-  const file = readFile(filepath);
-  const extention = path.extname(filepath).slice(1);
-  return parserSelector[extention](file);
-};
+const checkDiff = (formatter, filepath1, filepath2, formatterSelector = formatters) => {
+  const file1 = readFile(filepath1);
+  const file2 = readFile(filepath2);
+  const obj1 = parseFile(file1, getFileExtention(filepath1), parsers);
+  const obj2 = parseFile(file2, getFileExtention(filepath2), parsers);
 
-export const parsers = {
-  json: (file) => JSON.parse(file),
-  yml: (file) => yaml.safeLoad(file),
-  yaml: (file) => yaml.safeLoad(file),
-  ini: (file) => numberifyValues(ini.parse(file)),
-};
-
-const checkDiff = (formatter, file1, file2, formatterSelector = formatters) => {
-  const obj1 = parseFile(file1, parsers);
-  const obj2 = parseFile(file2, parsers);
   return formatterSelector[formatter](buildDiff(obj1, obj2));
 };
 
