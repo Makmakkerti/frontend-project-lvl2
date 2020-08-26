@@ -1,37 +1,22 @@
 import _ from 'lodash';
-import { readFile, getFileExtention } from './utils.js';
+import path from 'path';
+import { readFile } from './utils.js';
 import { formatters } from './formatters/index.js';
-import { parseFile, parsers } from './parser.js';
+import { parseData } from './parser.js';
+import { buildDiff } from './diffBuilder.js';
 
-const getTypeSettings = (key, before, after, cb) => {
-  if (!_.has(before, key) && _.has(after, key)) return { type: 'added', value: after[key] };
-  if (_.has(before, key) && !_.has(after, key)) return { type: 'deleted', value: before[key] };
-  if (_.isObject(before[key]) && _.isObject(after[key])) {
-    const children = cb(before[key], after[key]);
-    return { type: 'nested', children };
-  }
-  if (before[key] !== after[key]) return { type: 'modified', oldValue: before[key], newValue: after[key] };
-  if (before[key] === after[key]) return { type: 'unmodified', value: before[key] };
-  return null;
-};
+export const getFormat = (filepath) => path.extname(filepath).slice(1);
 
-const buildDiff = (before, after) => {
-  const mergedKeys = _.union(_.keys(before), _.keys(after));
-
-  return mergedKeys.sort().map((key) => {
-    const args = [key, before, after];
-    const { type } = getTypeSettings(...args, buildDiff);
-    return { key, type, ...getTypeSettings(...args, buildDiff) };
-  });
-};
+const formatResult = (comparisonResult, format) => formatters[format](comparisonResult);
 
 const checkDiff = (formatter, filepath1, filepath2) => {
-  const file1 = readFile(filepath1);
-  const file2 = readFile(filepath2);
-  const obj1 = parseFile(file1, getFileExtention(filepath1), parsers);
-  const obj2 = parseFile(file2, getFileExtention(filepath2), parsers);
+  const data1 = readFile(filepath1);
+  const data2 = readFile(filepath2);
+  const obj1 = parseData(data1, getFormat(filepath1));
+  const obj2 = parseData(data2, getFormat(filepath2));
+  const comparisonResult = buildDiff(obj1, obj2);
 
-  return formatters[formatter](buildDiff(obj1, obj2));
+  return formatResult(comparisonResult, formatter);
 };
 
 export default checkDiff;

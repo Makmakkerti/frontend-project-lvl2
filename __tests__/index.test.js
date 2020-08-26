@@ -13,13 +13,7 @@ beforeAll(() => {
 
 const testList = [
   ['yml', 'stylish'],
-  ['yml', 'plain'],
-  ['yml', 'json'],
-  ['json', 'stylish'],
   ['json', 'plain'],
-  ['json', 'json'],
-  ['ini', 'stylish'],
-  ['ini', 'plain'],
   ['ini', 'json'],
 ];
 
