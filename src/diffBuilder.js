@@ -1,22 +1,22 @@
 import _ from 'lodash';
 
-const getTypeSettings = (key, before, after, cb) => {
-  if (!_.has(before, key) && _.has(after, key)) return { type: 'added', value: after[key] };
-  if (_.has(before, key) && !_.has(after, key)) return { type: 'deleted', value: before[key] };
-  if (_.isObject(before[key]) && _.isObject(after[key])) {
-    const children = cb(before[key], after[key]);
+const getTypeSettings = (key, oldData, newData, cb) => {
+  if (!_.has(oldData, key) && _.has(newData, key)) return { type: 'added', value: newData[key] };
+  if (_.has(oldData, key) && !_.has(newData, key)) return { type: 'deleted', value: oldData[key] };
+  if (_.isObject(oldData[key]) && _.isObject(newData[key])) {
+    const children = cb(oldData[key], newData[key]);
     return { type: 'nested', children };
   }
-  if (before[key] !== after[key]) return { type: 'modified', oldValue: before[key], newValue: after[key] };
-  if (before[key] === after[key]) return { type: 'unmodified', value: before[key] };
+  if (oldData[key] !== newData[key]) return { type: 'modified', oldValue: oldData[key], newValue: newData[key] };
+  if (oldData[key] === newData[key]) return { type: 'unmodified', value: oldData[key] };
   return null;
 };
 
-export const buildDiff = (before, after) => {
-  const mergedKeys = _.union(_.keys(before), _.keys(after));
+export const buildDiff = (oldData, newData) => {
+  const mergedKeys = _.union(_.keys(oldData), _.keys(newData));
 
   return mergedKeys.sort().map((key) => {
-    const args = [key, before, after];
+    const args = [key, oldData, newData];
     const { type } = getTypeSettings(...args, buildDiff);
     return { key, type, ...getTypeSettings(...args, buildDiff) };
   });
