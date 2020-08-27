@@ -15,10 +15,10 @@ export const numberifyValues = (obj) => _.mapValues(obj, (value) => {
 });
 
 const parsers = {
-  json: (file) => JSON.parse(file),
-  yml: (file) => yaml.safeLoad(file),
-  yaml: (file) => yaml.safeLoad(file),
-  ini: (file) => numberifyValues(ini.parse(file)),
+  json: (data) => JSON.parse(data),
+  yml: (data) => yaml.safeLoad(data),
+  yaml: (data) => yaml.safeLoad(data),
+  ini: (data) => numberifyValues(ini.parse(data)),
 };
 
-export const parseData = (file, extention) => parsers[extention](file);
+export const parseData = (data, extention) => parsers[extention](data);
