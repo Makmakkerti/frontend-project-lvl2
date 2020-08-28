@@ -6,13 +6,32 @@ const stringify = (value) => {
   return `'${value}'`;
 };
 
-const buildPropertyDescription = (node) => {
-  const { type } = node;
-  if (type === 'added') return `added with value: ${stringify(node.value)}`;
-  if (type === 'modified') return `updated. From ${stringify(node.oldValue)} to ${stringify(node.newValue)}`;
-  if (type === 'deleted') return 'removed';
-  if (type === 'nested' || type === 'unmodified') return ' ';
-  return ' ';
+const typeDescriptions = {
+  added: (value) => `added with value: ${value}`,
+  modified: (oldValue, newValue) => `updated. From ${oldValue} to ${newValue}`,
+  deleted: 'removed',
+  nested: ' ',
+  unmodified: ' ',
+};
+
+const buildPropertyDescription = (property) => {
+  const { type } = property;
+
+  if (type === 'added') {
+    const value = stringify(property.value);
+    return typeDescriptions[type](value);
+  }
+  if (type === 'modified') {
+    const oldValue = stringify(property.oldValue);
+    const newValue = stringify(property.newValue);
+    return typeDescriptions[type](oldValue, newValue);
+  }
+  const description = typeDescriptions[type];
+
+  if (!description) {
+    throw new Error(`Unknown property type: '${type}'`);
+  }
+  return description;
 };
 
 const changedTypes = ['added', 'modified', 'deleted'];
