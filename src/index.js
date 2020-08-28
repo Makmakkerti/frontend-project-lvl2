@@ -1,12 +1,10 @@
 import path from 'path';
 import { readFile } from './utils.js';
-import { formatters } from './formatters/index.js';
+import { format } from './formatters/index.js';
 import { parseData } from './parser.js';
 import { buildDiff } from './diffBuilder.js';
 
 export const getFormat = (filepath) => path.extname(filepath).slice(1);
-
-const format = (comparisonResult, formatName) => formatters[formatName](comparisonResult);
 
 const checkDiff = (formatName, filepath1, filepath2) => {
   const data1 = readFile(filepath1);
