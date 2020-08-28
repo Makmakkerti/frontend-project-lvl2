@@ -1,9 +1,9 @@
-import flatFormat from './plain.js';
-import formatJson from './json.js';
-import stylishFormat from './stylish.js';
+import formatToPlain from './plain.js';
+import formatToJson from './json.js';
+import formatToStylish from './stylish.js';
 
 export const formatters = {
-  stylish: (tree) => stylishFormat(tree),
-  plain: (tree) => flatFormat(tree),
-  json: (tree) => formatJson(tree),
+  stylish: formatToStylish,
+  plain: formatToPlain,
+  json: formatToJson,
 };
