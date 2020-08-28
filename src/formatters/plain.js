@@ -37,15 +37,16 @@ const buildPropertyDescription = (property) => {
 const changedTypes = ['added', 'modified', 'deleted'];
 
 const formatToPlain = (tree) => {
-  const iter = (property, type = '', parent = []) => {
-    const propertyPath = parent.length ? `${parent.join('.')}.${property.key}` : property.key;
+  const iter = (property, type = '', parents = []) => {
+    const { key } = property;
+    const propertyPath = parents.length ? `${[...parents, key].join('.')}` : key;
+
     const keys = Object.keys(property);
     if (!keys.includes('children') || changedTypes.includes(type)) {
       const propertyDescription = buildPropertyDescription(property);
       return propertyDescription !== ' ' ? `Property '${propertyPath}' was ${propertyDescription}` : ' ';
     }
-    const propertyChildren = property.children;
-    return propertyChildren.flatMap((child) => iter(child, child.type, [...parent, property.key]));
+    return property.children.flatMap((child) => iter(child, child.type, [...parents, key]));
   };
   return tree.flatMap((node) => iter(node)).filter((propertyDescription) => propertyDescription !== ' ').sort().join('\n');
 };
