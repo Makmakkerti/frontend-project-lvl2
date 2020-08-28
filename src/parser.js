@@ -10,11 +10,13 @@ export const numberifyValues = (obj) => _.mapValues(obj, (value) => {
   return value;
 });
 
+const iniParse = (data) => numberifyValues(ini.parse(data));
+
 const parsers = {
-  json: (data) => JSON.parse(data),
-  yml: (data) => yaml.safeLoad(data),
-  yaml: (data) => yaml.safeLoad(data),
-  ini: (data) => numberifyValues(ini.parse(data)),
+  json: JSON.parse,
+  yml: yaml.safeLoad,
+  yaml: yaml.safeLoad,
+  ini: iniParse,
 };
 
 export const parseData = (data, extention) => parsers[extention](data);
