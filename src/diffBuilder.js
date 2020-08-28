@@ -14,7 +14,6 @@ export const buildDiff = (oldData, newData) => {
       if (oldData[key] !== newData[key]) return { type: 'modified', oldValue: oldData[key], newValue: newData[key] };
       return { type: 'unmodified', value: oldData[key] };
     };
-
     return { key, ...buildNodeData() };
   });
 };

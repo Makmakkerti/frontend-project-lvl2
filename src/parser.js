@@ -19,4 +19,7 @@ const parsers = {
   ini: iniParse,
 };
 
-export const parseData = (data, extention) => parsers[extention](data);
+export const parseData = (data, extention) => {
+  if (!_.has(parsers, extention)) throw new Error(`Unknown file extention: ${extention}`);
+  return parsers[extention](data);
+};
