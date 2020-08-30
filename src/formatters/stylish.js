@@ -7,7 +7,9 @@ const getOffset = (depth) => lineOffset + depth * tab;
 const getTab = (offset) => ' '.repeat(offset);
 
 const stringify = (value, offset) => {
-  if (!_.isObject(value)) return value;
+  if (!_.isObject(value)) {
+    return value;
+  }
 
   const lineTab = getTab(offset + tab + lineOffset);
   const closingBracketTab = getTab(offset + lineOffset);

@@ -20,6 +20,8 @@ const parsers = {
 };
 
 export const parseData = (data, extention) => {
-  if (!_.has(parsers, extention)) throw new Error(`Unknown file extention: ${extention}`);
+  if (!_.has(parsers, extention)) {
+    throw new Error(`Unknown file extention: ${extention}`);
+  }
   return parsers[extention](data);
 };

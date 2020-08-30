@@ -10,6 +10,8 @@ const formatters = {
 };
 
 export const format = (comparisonResult, formatName) => {
-  if (!_.has(formatters, formatName)) throw new Error(`Unknown formatter: ${formatName}`);
+  if (!_.has(formatters, formatName)) {
+    throw new Error(`Unknown formatter: ${formatName}`);
+  }
   return formatters[formatName](comparisonResult);
 };
