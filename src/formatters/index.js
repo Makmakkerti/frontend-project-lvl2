@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import formatToPlain from './plain.js';
 import formatToJson from './json.js';
 import formatToStylish from './stylish.js';
