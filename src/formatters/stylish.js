@@ -27,18 +27,21 @@ const getStringFor = {
   nested: (offset, { key, children }, fn, depth) => `  ${key}: ${fn(children, depth)}`,
 };
 
-const formatToStylish = (ast, depth = 0) => {
-  const offset = getOffset(depth);
-  const lineTab = getTab(offset);
-  const closingBracketTab = getTab(offset - 2);
+const formatToStylish = (ast) => {
+  const iter = (astNode, depth) => {
+    const offset = getOffset(depth);
+    const lineTab = getTab(offset);
+    const closingBracketTab = getTab(offset - 2);
 
-  const buildString = (node) => {
-    const { type } = node;
-    return getStringFor[type](offset, node, formatToStylish, depth + 1);
+    const buildString = (node) => {
+      const { type } = node;
+      return getStringFor[type](offset, node, iter, depth + 1);
+    };
+
+    const diffString = _.flatten(astNode.map(buildString)).join(`\n${lineTab}`);
+    return `{\n${lineTab}${diffString}\n${closingBracketTab}}`;
   };
-
-  const diffString = _.flatten(ast.map(buildString)).join(`\n${lineTab}`);
-  return `{\n${lineTab}${diffString}\n${closingBracketTab}}`;
+  return iter(ast, 0);
 };
 
 export default formatToStylish;
