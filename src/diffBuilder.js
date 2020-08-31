@@ -16,7 +16,7 @@ export const buildDiff = (oldData, newData) => {
         return { type: 'nested', children };
       }
       if (oldData[key] !== newData[key]) {
-        return { type: 'modified', oldValue: oldData[key], newValue: newData[key] };
+        return { type: 'modified', oldValue: oldData[key], value: newData[key] };
       }
       return { type: 'unmodified', value: oldData[key] };
     };

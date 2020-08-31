@@ -6,12 +6,12 @@ const stringify = (value) => {
   return `'${value}'`;
 };
 
-const getPropertyDescription = (name, type, value, newValue) => {
+const getPropDescription = (name, type, oldValue, value) => {
   switch (type) {
     case 'added':
       return `Property '${name}' was added with value: ${value}`;
     case 'modified':
-      return `Property '${name}' was updated. From ${value} to ${newValue}`;
+      return `Property '${name}' was updated. From ${oldValue} to ${value}`;
     case 'deleted':
       return `Property '${name}' was removed`;
     case 'nested':
@@ -28,15 +28,13 @@ const changedTypes = ['added', 'modified', 'deleted'];
 const formatToPlain = (tree) => {
   const iter = (property, type = '', parents = []) => {
     const {
-      key, value, oldValue, newValue,
+      key, value, oldValue,
     } = property;
 
     const propertyPath = parents.length ? `${[...parents, key].join('.')}` : key;
 
     if (!Object.keys(property).includes('children') || changedTypes.includes(type)) {
-      const propertyValue = oldValue ? stringify(oldValue) : stringify(value);
-      const propertyNewValue = newValue ? stringify(newValue) : '';
-      return getPropertyDescription(propertyPath, property.type, propertyValue, propertyNewValue);
+      return getPropDescription(propertyPath, property.type, stringify(oldValue), stringify(value));
     }
     return property.children.flatMap((child) => iter(child, child.type, [...parents, key]));
   };

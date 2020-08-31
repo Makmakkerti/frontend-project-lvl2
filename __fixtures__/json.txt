@@ -22,7 +22,7 @@
         "key": "setting3",
         "type": "modified",
         "oldValue": true,
-        "newValue": {
+        "value": {
           "key": "value"
         }
       },
@@ -50,7 +50,7 @@
                 "key": "wow",
                 "type": "modified",
                 "oldValue": "too much",
-                "newValue": "so much"
+                "value": "so much"
               }
             ]
           },
@@ -76,7 +76,7 @@
         "key": "baz",
         "type": "modified",
         "oldValue": "bas",
-        "newValue": "bars"
+        "value": "bars"
       },
       {
         "key": "foo",
@@ -89,7 +89,7 @@
         "oldValue": {
           "key": "value"
         },
-        "newValue": "str"
+        "value": "str"
       }
     ]
   },

@@ -23,7 +23,7 @@ const getStringFor = {
   deleted: (offset, { key, value }) => `- ${key}: ${stringify(value, offset)}`,
   added: (offset, { key, value }) => `+ ${key}: ${stringify(value, offset)}`,
   unmodified: (offset, { key, value }) => `  ${key}: ${stringify(value, offset)}`,
-  modified: (offset, { key, oldValue, newValue }) => [`- ${key}: ${stringify(oldValue, offset)}`, `+ ${key}: ${stringify(newValue, offset)}`],
+  modified: (offset, { key, oldValue, value }) => [`- ${key}: ${stringify(oldValue, offset)}`, `+ ${key}: ${stringify(value, offset)}`],
   nested: (offset, { key, children }, fn, depth) => `  ${key}: ${fn(children, depth)}`,
 };
 
