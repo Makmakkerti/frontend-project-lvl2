@@ -12,9 +12,16 @@ export const numberifyValues = (obj) => _.mapValues(obj, (value) => {
 
 const iniParse = (data) => numberifyValues(ini.parse(data));
 
-export const parsers = {
+const parsers = {
   json: JSON.parse,
   yml: yaml.safeLoad,
   yaml: yaml.safeLoad,
   ini: iniParse,
+};
+
+export const parse = (format, data) => {
+  if (!_.has(parsers, format)) {
+    throw new Error(`Unknown format: ${format}`);
+  }
+  return parsers[format](data);
 };
