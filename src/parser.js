@@ -12,16 +12,9 @@ export const numberifyValues = (obj) => _.mapValues(obj, (value) => {
 
 const iniParse = (data) => numberifyValues(ini.parse(data));
 
-const parsers = {
+export const parsers = {
   json: JSON.parse,
   yml: yaml.safeLoad,
   yaml: yaml.safeLoad,
   ini: iniParse,
-};
-
-export const parseData = (data, extention) => {
-  if (!_.has(parsers, extention)) {
-    throw new Error(`Unknown file extention: ${extention}`);
-  }
-  return parsers[extention](data);
 };
