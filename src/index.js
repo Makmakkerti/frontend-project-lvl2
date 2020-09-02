@@ -11,9 +11,9 @@ const checkDiff = (formatName, filepath1, filepath2) => {
   const data2 = readFile(filepath2);
   const obj1 = parse(getFormat(filepath1), data1);
   const obj2 = parse(getFormat(filepath2), data2);
-  const comparisonResult = buildDiff(obj1, obj2);
+  const diffTree = buildDiff(obj1, obj2);
 
-  return getFormatted(formatName, comparisonResult);
+  return getFormatted(formatName, diffTree);
 };
 
 export default checkDiff;

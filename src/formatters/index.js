@@ -9,9 +9,9 @@ export const formatters = {
   json: formatToJson,
 };
 
-export const getFormatted = (formatter, data) => {
+export const getFormatted = (formatter, diffTree) => {
   if (!_.has(formatters, formatter)) {
     throw new Error(`Unknown formatter: ${formatter}`);
   }
-  return formatters[formatter](data);
+  return formatters[formatter](diffTree);
 };

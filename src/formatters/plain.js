@@ -6,39 +6,19 @@ const stringify = (value) => {
   return `'${value}'`;
 };
 
-const getPropDescription = (name, type, oldValue, value) => {
-  switch (type) {
-    case 'added':
-      return `Property '${name}' was added with value: ${stringify(value)}`;
-    case 'modified':
-      return `Property '${name}' was updated. From ${stringify(oldValue)} to ${stringify(value)}`;
-    case 'deleted':
-      return `Property '${name}' was removed`;
-    case 'nested':
-      return ' ';
-    case 'unmodified':
-      return ' ';
-    default:
-      throw new Error(`Unknown property type: ${type}`);
-  }
+const getPropertyName = (property, parents) => [...parents, property].join('.');
+
+const mapping = {
+  added: (node, currentPath) => `Property '${getPropertyName(node.key, currentPath)}' was added with value: ${stringify(node.value)}`,
+  modified: (node, currentPath) => `Property '${getPropertyName(node.key, currentPath)}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.value)}`,
+  deleted: (node, currentPath) => `Property '${getPropertyName(node.key, currentPath)}' was removed`,
+  nested: (node, currentPath, iter) => iter(node.children, [...currentPath, node.key]),
+  unmodified: () => ' ',
 };
 
-const modified = ['added', 'modified', 'deleted'];
-
 const formatToPlain = (tree) => {
-  const iter = (property, type = '', parents = []) => {
-    const {
-      key, value, oldValue,
-    } = property;
-
-    const propertyPath = parents.length ? `${[...parents, key].join('.')}` : key;
-
-    if (!_.has(property, 'children') || modified.includes(type)) {
-      return getPropDescription(propertyPath, property.type, oldValue, value);
-    }
-    return property.children.flatMap((child) => iter(child, child.type, [...parents, key]));
-  };
-  return tree.flatMap((node) => iter(node)).filter((propertyDescription) => propertyDescription !== ' ').sort().join('\n');
+  const iter = (nodes, curPath) => nodes.flatMap((node) => mapping[node.type](node, curPath, iter));
+  return iter(tree, []).filter((description) => description !== ' ').join('\n');
 };
 
 export default formatToPlain;
