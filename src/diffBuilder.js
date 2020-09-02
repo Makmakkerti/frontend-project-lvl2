@@ -16,7 +16,7 @@ export const buildDiff = (oldData, newData) => {
     }
     if (oldData[key] !== newData[key]) {
       return {
-        key, type: 'modified', oldValue: oldData[key], value: newData[key]
+        key, type: 'modified', oldValue: oldData[key], value: newData[key],
       };
     }
     return { key, type: 'unmodified', value: oldData[key] };
