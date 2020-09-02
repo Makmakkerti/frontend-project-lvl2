@@ -1,45 +1,31 @@
 import _ from 'lodash';
 
 const tab = 4;
-const lineOffset = 2;
+const startIndent = 2;
+const getIndent = (depth, indent = 0) => ' '.repeat(depth * tab + indent);
 
-const getOffset = (depth) => lineOffset + depth * tab;
-const getTab = (offset) => ' '.repeat(offset);
-
-const stringify = (value, offset) => {
+const stringify = (value, depth) => {
   if (!_.isObject(value)) {
     return value;
   }
-
-  const lineTab = getTab(offset + tab + lineOffset);
-  const closingBracketTab = getTab(offset + lineOffset);
-  const stringifiedObject = _.keys(value)
-    .map((key) => `${key}: ${stringify(value[key], offset + tab)}`)
-    .join(`\n${lineTab}`);
-  return `{\n${lineTab}${stringifiedObject}\n${closingBracketTab}}`;
+  const stringifiedChildren = _.keys(value).map((key) => `${key}: ${stringify(value[key], depth + 1)}`);
+  const stringifiedObject = stringifiedChildren.join(`\n${getIndent(depth, tab)}`);
+  return `{\n${getIndent(depth, tab)}${stringifiedObject}\n${getIndent(depth)}}`;
 };
 
 const getStringFor = {
-  deleted: (offset, { key, value }) => `- ${key}: ${stringify(value, offset)}`,
-  added: (offset, { key, value }) => `+ ${key}: ${stringify(value, offset)}`,
-  unmodified: (offset, { key, value }) => `  ${key}: ${stringify(value, offset)}`,
-  modified: (offset, { key, oldValue, value }) => [`- ${key}: ${stringify(oldValue, offset)}`, `+ ${key}: ${stringify(value, offset)}`],
-  nested: (offset, { key, children }, fn, depth) => `  ${key}: ${fn(children, depth)}`,
+  deleted: (depth, { key, value }) => `- ${key}: ${stringify(value, depth)}`,
+  added: (depth, { key, value }) => `+ ${key}: ${stringify(value, depth)}`,
+  unmodified: (depth, { key, value }) => `  ${key}: ${stringify(value, depth)}`,
+  modified: (depth, { key, oldValue, value }) => [`- ${key}: ${stringify(oldValue, depth)}`, `+ ${key}: ${stringify(value, depth)}`],
+  nested: (depth, { key, children }, fn) => `  ${key}: ${fn(children, depth)}`,
 };
 
 const formatToStylish = (diffTree) => {
   const iter = (diffTreeNode, depth) => {
-    const offset = getOffset(depth);
-    const lineTab = getTab(offset);
-    const closingBracketTab = getTab(offset - 2);
-
-    const buildString = (node) => {
-      const { type } = node;
-      return getStringFor[type](offset, node, iter, depth + 1);
-    };
-
-    const diffString = _.flatten(diffTreeNode.map(buildString)).join(`\n${lineTab}`);
-    return `{\n${lineTab}${diffString}\n${closingBracketTab}}`;
+    const buildString = (node) => getStringFor[node.type](depth + 1, node, iter);
+    const diffString = _.flatten(diffTreeNode.map(buildString)).join(`\n${getIndent(depth, startIndent)}`);
+    return `{\n${getIndent(depth, startIndent)}${diffString}\n${getIndent(depth)}}`;
   };
   return iter(diffTree, 0);
 };
