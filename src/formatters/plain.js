@@ -13,12 +13,12 @@ const mapping = {
   modified: (node, currentPath) => `Property '${getPropertyName(node.key, currentPath)}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.value)}`,
   deleted: (node, currentPath) => `Property '${getPropertyName(node.key, currentPath)}' was removed`,
   nested: (node, currentPath, iter) => iter(node.children, [...currentPath, node.key]),
-  unmodified: () => ' ',
+  unmodified: () => [],
 };
 
 const formatToPlain = (tree) => {
   const iter = (nodes, curPath) => nodes.flatMap((node) => mapping[node.type](node, curPath, iter));
-  return iter(tree, []).filter((description) => description !== ' ').join('\n');
+  return iter(tree, []).join('\n');
 };
 
 export default formatToPlain;
