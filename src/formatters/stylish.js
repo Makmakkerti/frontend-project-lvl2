@@ -24,7 +24,7 @@ const getStringFor = {
 const formatToStylish = (diffTree) => {
   const iter = (diffTreeNode, depth) => {
     const buildString = (node) => getStringFor[node.type](depth + 1, node, iter);
-    const diffString = _.flatten(diffTreeNode.map(buildString)).join(`\n${getIndent(depth, startIndent)}`);
+    const diffString = diffTreeNode.flatMap(buildString).join(`\n${getIndent(depth, startIndent)}`);
     return `{\n${getIndent(depth, startIndent)}${diffString}\n${getIndent(depth)}}`;
   };
   return iter(diffTree, 0);
